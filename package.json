@@ -1,0 +1,32 @@
+{
+  "name": "anbu",
+  "maintainers": [
+    {
+      "name": "army8735",
+      "email": "army8735@qq.com"
+    }
+  ],
+  "version": "0.0.1",
+  "description": "",
+  "main": "anbu.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/army8735/anbu.git"
+  },
+  "author": "army8735",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/army8735/anbu/issues"
+  },
+  "homepage": "https://github.com/army8735/anbu",
+  "dependencies": {
+    "homunculus": "0.0.7"
+  }
+}
