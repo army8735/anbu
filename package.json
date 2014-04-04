@@ -27,6 +27,13 @@
   },
   "homepage": "https://github.com/army8735/anbu",
   "dependencies": {
-    "homunculus": "0.0.7"
+    "homunculus": "0.1.0"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^1.18.2",
+    "blanket": "^1.1.6",
+    "coveralls": "^2.10.0",
+    "mocha-lcov-reporter": "0.0.1"
   }
 }
