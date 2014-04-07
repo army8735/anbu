@@ -22,3 +22,4 @@ $=[]
 -~[] << -~[] = 2
 [][0] + '' = 'undefined'
 \ufeff
+[].sort + '' = 'function sort() {\n    [native code]\n}

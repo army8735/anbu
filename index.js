@@ -1,0 +1,1 @@
+var gen = require('./lib/gen');

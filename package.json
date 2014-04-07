@@ -6,9 +6,9 @@
       "email": "army8735@qq.com"
     }
   ],
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "anbu.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/army8735/anbu",
   "dependencies": {
-    "homunculus": "0.1.0"
+    "homunculus": "0.1.3"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
