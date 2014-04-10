@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/army8735/anbu",
   "dependencies": {
-    "homunculus": "0.1.3"
+    "homunculus": "0.1.6"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
