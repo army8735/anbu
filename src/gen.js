@@ -2,7 +2,7 @@ function wrap(s) {
   return '(' + s + ')';
 }
 function trueString() {
-  return '!{}+[]';
+  return '!\'\'+[]';
 }
 function falseString() {
   return '![]+[]';
@@ -38,7 +38,7 @@ function getChar(c, direct) {
     case 'e':
       return wrap(undefinedString()) + '[' + getNumber(3) + ']';
     case 'f':
-      return wrap(falseString()) + '[' + getNumber(4) + ']';
+      return wrap(falseString()) + '[' + getNumber(0) + ']';
     case 'i':
       return wrap(undefinedString()) + '[' + getNumber(5) + ']';
     case 'j':
@@ -63,7 +63,7 @@ function getChar(c, direct) {
           return wrap(getChar(c.toLowerCase())) + '.toUpperCase()';
         }
         else {
-          return "'" + c + "'";
+          return c;
         }
       }
       else {
@@ -114,7 +114,7 @@ function getPostiveNumber(n) {
         return wrap(getPostiveNumber(2) + '<<' + getPostiveNumber(count));
       }
       else {
-        return wrap(getPostiveNumber(2) + '<<' + getPostiveNumber(count - 1)) + getPostiveNumber(n - (i >> 1));
+        return wrap(getPostiveNumber(2) + '<<' + getPostiveNumber(count - 1)) + '+' + getPostiveNumber(n - (i >> 1));
       }
     }
   }
