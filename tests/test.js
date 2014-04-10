@@ -27,25 +27,73 @@ describe('simple tests', function() {
   describe('gen#getString(s:String, true)', function() {
     it('abcdefijlnorstu should return getNumber', function() {
       'abcdefijlnorstu'.split('').forEach(function(c) {
-        expect(eval(gen.getString(c, true))).to.eql(c);
+        var res = gen.getString(c, true);
+        expect(res).to.not.eql("'" + c + "'");
+        expect(eval(res)).to.eql(c);
       });
     });
     it('other should return director', function() {
       'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
         if(!inNumber[c]) {
+          var res = gen.getString(c, true);
           if(c >= 'A' && c <= 'Z') {
             if(!inNumber[c.toLowerCase()]) {
-              expect(gen.getString(c, true)).to.eql(c);
+              expect(res).to.eql("'" + c + "'");
             }
             else {
-              expect(eval(gen.getString(c, true))).to.eql(c);
+              expect(res).to.not.eql("'" + c + "'");
+              expect(eval(res)).to.eql(c);
             }
           }
           else if(c >= 'a' && c <= 'z') {
-            expect(gen.getString(c, true)).to.eql(c);
+            expect(res).to.eql("'" + c + "'");
           }
           else {
-            expect(gen.getString(c, true)).to.eql(c);
+            expect(res).to.eql("'" + c + "'");
+          }
+        }
+      });
+    });
+  });
+  describe.only('gen#PRECODE exec', function() {
+    eval(gen.PRECODE);
+    it('String.prototype[-1] should be a function', function() {
+      expect(typeof String.prototype[-1]).to.eql('function');
+    });
+    it('should return a', function() {
+      expect('abc'[-1](0)).to.eql('a');
+    });
+    it('String.prototype[-2] should be a function', function() {
+      expect(typeof String.prototype[-2]).to.eql('function');
+    });
+    it('should return A', function() {
+      expect('a'[-2]()).to.eql('A');
+    });
+    it('String.prototype[-3] should be a function', function() {
+      expect(typeof String.prototype[-3]).to.eql('function');
+    });
+  });
+  describe('gen#getString(s:String, false)', function() {
+    it('abcdefijlnorstu should return getNumber', function() {
+      'abcdefijlnorstu'.split('').forEach(function(c) {
+        var res = gen.getString(c);
+        expect(res).to.not.eql(c);
+        expect(eval(res)).to.eql(c);
+      });
+    });
+    it('other should return getNumber', function() {
+      'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
+        if(!inNumber[c]) {
+          var res = gen.getString(c);
+          if(c >= 'A' && c <= 'Z') {
+              expect(res).to.not.eql(c);
+              expect(eval(res)).to.eql(c);
+          }
+          else if(c >= 'a' && c <= 'z') {
+//            expect(res).to.eql(c);
+          }
+          else {
+//            expect(res).to.eql(c);
           }
         }
       });

@@ -8,15 +8,15 @@ function falseString() {
   return '![]+[]';
 }
 function objectString() {
-  return '""+{}';
+  return '\'\'+{}';
 }
 function undefinedString() {
-  return '[][+[]]+""';
+  return '[][+[]]+\'\'';
 }
 function fnaString() {
   return '[].['
     + falseString()[getNumber(3)]
-    + ']+""';
+    + ']+\'\'';
 }
 function nanString() {
   return '+{}';
@@ -59,19 +59,19 @@ function getChar(c, direct) {
       return wrap(undefinedString()) + '[' + getNumber(0) + ']';
     default:
       if(direct) {
-        if((c >= 'A' || c <= 'Z') && inNumber[c.toLowerCase()]) {
+        if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
           return wrap(getChar(c.toLowerCase())) + '.toUpperCase()';
         }
         else {
-          return c;
+          return "'" + c + "'";
         }
       }
       else {
-        if(c >= 'A' || c <= 'Z' && inNumber[c.toLowerCase()]) {
-          return '\'\'[' + getNumber(-2) + '](' + getChar(c.toLowerCase()) + ')';
+        if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
+          return '\'\'[' + getNumber(-2) + ']' + wrap(getChar(c.toLowerCase()));
         }
         else {
-          return '\'\'[' + getNumber(-3) + '](' + c.charCodeAt(0) + ')';
+          return '\'\'[' + getNumber(-3) + ']' + wrap(c.charCodeAt(0));
         }
       }
   }
@@ -134,17 +134,17 @@ exports.getString = getString;
 //-1为charAt，-2为toUpperCase，-3为fromCharCode
 var PRECODE = 'String.prototype['
   + getNumber(-1)
-  + '] = function(i) { return this['
+  + ']=function(i){return this['
   + getString('charAt', true)
-  + '](i) }'
+  + '](i)};'
   + 'String.prototype['
   + getNumber(-2)
-  + '] = function() { return this['
+  + ']=function(){return this['
   + getString('toUpperCase', true)
-  + '](this) }'
+  + '](this)};'
   + 'String.prototype['
   + getNumber(-3)
-  + '] = function(n) { return String['
+  + ']=function(n){return String['
   + getString('fromCharCode', true)
-  + '](n) };'
-exports.PRECODE = PRECODE.replace(/\s/g, '');
+  + '](n)};'
+exports.PRECODE = PRECODE;
