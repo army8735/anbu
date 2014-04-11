@@ -56,6 +56,26 @@ function getChar(c, original) {
       return wrap(nanString()) + '[' + getNumber(0) + ']';
     case 'O':
       return wrap(objectString()) + '[' + getNumber(8) + ']';
+    case '1':
+      return wrap(getNumber(1)) + '+\'\'';
+    case '2':
+      return wrap(getNumber(2)) + '+\'\'';
+    case '3':
+      return wrap(getNumber(3)) + '+\'\'';
+    case '4':
+      return wrap(getNumber(4)) + '+\'\'';
+    case '5':
+      return wrap(getNumber(5)) + '+\'\'';
+    case '6':
+      return wrap(getNumber(6)) + '+\'\'';
+    case '7':
+      return wrap(getNumber(7)) + '+\'\'';
+    case '8':
+      return wrap(getNumber(8)) + '+\'\'';
+    case '9':
+      return wrap(getNumber(9)) + '+\'\'';
+    case '0':
+      return wrap(getNumber(0)) + '+\'\'';
     default:
       if(original) {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
@@ -73,7 +93,7 @@ function getChar(c, original) {
           return wrap(getChar(c.toLowerCase())) + '[' + getNumber(-2) + ']()';
         }
         else {
-          return '\'\'[' + getNumber(-3) + ']' + wrap(c.charCodeAt(0));
+          return '\'\'[' + getNumber(-3) + ']' + wrap(getNumber(c.charCodeAt(0)));
         }
       }
   }
@@ -144,7 +164,7 @@ function getNumber(n) {
     return '-' + wrap(getNumber(-n));
   }
   else {
-    var s = getPostiveNumber(n);
+    var s = wrap(getPostiveNumber(n));
     return s;
   }
 }

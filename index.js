@@ -6,21 +6,28 @@ var homunculus = require('homunculus');
 var JsNode = homunculus.getClass('node', 'js');
 var Token = homunculus.getClass('token');
 
+var gen = require('./src/gen');
+var sort = require('./util/sort');
+
 var modifies;
 exports.encrypt = function(code, original) {
   var context = homunculus.getContext('js');
   context.parse(code);
   var ast = context.parser.ast();
   modifies = [];
+  PropertyModify.init();
   recursion(ast, original);
   analyse(context, original);
   //所有的修改按照索引排序，从尾部修改起便不会冲突
-  modifies = modifies.sort(function(a, b) {
+  sort(modifies, function(a, b) {
     return a.start() < b.start();
   });
   modifies.forEach(function(modify, i) {
     code = modify.gen(code);
   });
+  if(!original) {
+    code = gen.PRECODE + code;
+  }
   return code;
 };
 
@@ -31,7 +38,10 @@ function recursion(node, original) {
     if(!isVirtual) {
       var token = node.token();
       //改写常量
-      if([Token.STRING, Token.NUMBER].indexOf(token.type()) > -1) {
+      if(token.type() == Token.STRING && token.val().length) {
+        modifies.push(new ConstantModify(original, token));
+      }
+      else if(token.type() == Token.NUMBER) {
         modifies.push(new ConstantModify(original, token));
       }
     }
