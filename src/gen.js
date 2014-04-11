@@ -174,27 +174,27 @@ exports.getString = getString;
 //String.prototype上添加方法：-1为charAt，-2为toUpperCase，-3为fromCharCode
 var PRECODE = '\'\'['
   + getString('constructor', true)
-  +']['
+  +']\n['
   + getString('prototype', true)
-  +']['
+  +']\n['
   + getNumber(-1)
   + ']=function(i){return this['
   + getString('charAt', true)
   + '](i)};\n'
   + '\'\'['
   + getString('constructor', true)
-  +']['
+  +']\n['
   + getString('prototype', true)
-  +']['
+  +']\n['
   + getNumber(-2)
   + ']=function(){return this['
   + getString('toUpperCase', true)
   + '](this)};\n'
   + '\'\'['
   + getString('constructor', true)
-  +']['
+  +']\n['
   + getString('prototype', true)
-  +']['
+  +']\n['
   + getNumber(-3)
   + ']=function(n){return String['
   + getString('fromCharCode', true)
