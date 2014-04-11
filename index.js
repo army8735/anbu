@@ -1,5 +1,6 @@
 var PropertyModify = require('./src/PropertyModify');
 var ConstantModify = require('./src/ConstantModify');
+var VarModify = require('./src/VarModify');
 
 var homunculus = require('homunculus');
 var JsNode = homunculus.getClass('node', 'js');
@@ -12,6 +13,7 @@ exports.encrypt = function(code, original) {
   var ast = context.parser.ast();
   modifies = [];
   recursion(ast, original);
+  analyse(context, original);
   //所有的修改按照索引排序，从尾部修改起便不会冲突
   modifies = modifies.sort(function(a, b) {
     return a.start() < b.start();
@@ -56,4 +58,9 @@ function prmrexpr(node, original) {
     }
     next = next.next();
   }
+}
+function analyse(context, original) {
+  context.getVars().forEach(function(vardecl) {
+    modifies.push(new VarModify(original, vardecl));
+  });
 }

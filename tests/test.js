@@ -120,7 +120,7 @@ describe('api tests', function() {
     });
   });
 });
-describe('simple tests', function() {
+describe.only('simple tests', function() {
   describe('use orginal', function() {
     it('encrypt number', function() {
       var s = '123';
@@ -142,6 +142,50 @@ describe('simple tests', function() {
       expect(Object.alert()).to.eql(1);
       after(function() {
         delete Object.alert;
+      });
+    });
+    it('encrypt global var', function() {
+      var s = 'var a = 1';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      eval(res);
+      expect(this.a).to.eql(1);
+      after(function() {
+        delete this.a;
+      });
+    });
+  });
+  describe('not use orginal', function() {
+    it('encrypt number', function() {
+      var s = '123';
+      var res = anbu.encrypt(s);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql(123);
+    });
+    it('encrypt string', function() {
+      var s = '"This is a string."';
+      var res = anbu.encrypt(s);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql(s);
+    });
+    it('encrypt .property', function() {
+      var s = 'Object.alert = function(){return 1}';
+      var res = anbu.encrypt(s);
+      expect(res).to.not.eql(s);
+      eval(s);
+      expect(Object.alert()).to.eql(1);
+      after(function() {
+        delete Object.alert;
+      });
+    });
+    it('encrypt global var', function() {
+      var s = 'var a = 1';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      eval(res);
+      expect(this.a).to.eql(1);
+      after(function() {
+        delete this.a;
       });
     });
   });
