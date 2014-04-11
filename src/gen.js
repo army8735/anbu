@@ -60,7 +60,10 @@ function getChar(c, direct) {
     default:
       if(direct) {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
-          return wrap(getChar(c.toLowerCase())) + '.toUpperCase()';
+          return wrap(getChar(c.toLowerCase()))
+            + '['
+            + getString('to') + '+\'Upp\'+' + getString('er') + '+\'C\'+' + getString('ase', true)
+            + ']()';
         }
         else {
           return "'" + c + "'";
@@ -86,6 +89,24 @@ function getString(s, direct) {
     arr.forEach(function(c) {
       res.push(getChar(c, direct));
     });
+    for(var i = 0; i < res.length; i++) {
+      var count = 0;
+      var cache = [];
+      while(true) {
+        var now = res[i+count];
+        count++;
+        if(/^'.'$/.test(now)) {
+          cache.push(now);
+        }
+        else {
+          break;
+        }
+      }
+      if(cache.length > 1) {
+        res.splice(i, cache.length, cache.join('').replace(/''/g, ''));
+        i += count;
+      }
+    }
     return res.join('+');
   }
 }
@@ -131,18 +152,30 @@ function getNumber(n) {
 
 exports.getNumber = getNumber;
 exports.getString = getString;
-//-1为charAt，-2为toUpperCase，-3为fromCharCode
-var PRECODE = 'String.prototype['
+//String.prototype上添加方法：-1为charAt，-2为toUpperCase，-3为fromCharCode
+var PRECODE = '\'\'['
+  + getString('constructor', true)
+  +']['
+  + getString('prototype', true)
+  +']['
   + getNumber(-1)
   + ']=function(i){return this['
   + getString('charAt', true)
   + '](i)};'
-  + 'String.prototype['
+  + '\'\'['
+  + getString('constructor', true)
+  +']['
+  + getString('prototype', true)
+  +']['
   + getNumber(-2)
   + ']=function(){return this['
   + getString('toUpperCase', true)
   + '](this)};'
-  + 'String.prototype['
+  + '\'\'['
+  + getString('constructor', true)
+  +']['
+  + getString('prototype', true)
+  +']['
   + getNumber(-3)
   + ']=function(n){return String['
   + getString('fromCharCode', true)

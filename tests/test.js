@@ -54,9 +54,14 @@ describe('simple tests', function() {
         }
       });
     });
+    it('other series should return together', function() {
+      var res = gen.getString('xyz', true);
+      expect(res).to.eql('\'xyz\'');
+    });
   });
   describe('gen#PRECODE exec', function() {
     before(function() {
+      console.log(gen.PRECODE);
       eval(gen.PRECODE);
     });
     it('String.prototype[-1] should be a function', function() {
@@ -91,7 +96,7 @@ describe('simple tests', function() {
         expect(eval(res)).to.eql(c);
       });
     });
-    it.only('other should return getNumber', function() {
+    it('other should return getNumber', function() {
       'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
         if(!inNumber[c]) {
           var res = gen.getString(c);
