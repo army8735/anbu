@@ -5,6 +5,11 @@ var expect = require('expect.js');
 var fs = require('fs');
 var path = require('path');
 
+var inNumber = Object.create(null);
+'abcdefijlnorstuNO'.split('').forEach(function(c) {
+  inNumber[c] = true;
+});
+
 describe('simple tests', function() {
   describe('gen#getNumber', function() {
     it('Postive should be right', function() {
@@ -20,37 +25,28 @@ describe('simple tests', function() {
       }
     });
   });
-  var inNumber = Object.create(null);
-  'abcdefijlnorstu'.split('').forEach(function(c) {
-    inNumber[c] = true;
-  });
   describe('gen#getString(s:String, true)', function() {
-    it('abcdefijlnorstu should return getNumber', function() {
-      'abcdefijlnorstu'.split('').forEach(function(c) {
+    it('abcdefijlnorstuNO should return with getNumber', function() {
+      'abcdefijlnorstuNO'.split('').forEach(function(c) {
         var res = gen.getString(c, true);
-        expect(res).to.not.eql("'" + c + "'");
+        //()[]形式
+        expect(/^\(.+\)\[.+\]$/.test(res)).to.be.ok();
+        expect(eval(res)).to.eql(c);
+      });
+    });
+    it('ABCDEFIJLRSTU should return with getNumber and toUpperCase', function() {
+      'ABCDEFIJLRSTU'.split('').forEach(function(c) {
+        var res = gen.getString(c, true);
+        //(()[])[toUpperCase]()形式
+        expect(/^\(\(.+\)\[.+\]\)\[.+Upp.+\]\(\)$/.test(res)).to.be.ok();
         expect(eval(res)).to.eql(c);
       });
     });
     it('other should return director', function() {
       'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
-        if(!inNumber[c]) {
+        if(!inNumber[c] && !inNumber[c.toLowerCase()]) {
           var res = gen.getString(c, true);
-          if(c >= 'A' && c <= 'Z') {
-            if(!inNumber[c.toLowerCase()]) {
-              expect(res).to.eql("'" + c + "'");
-            }
-            else {
-              expect(res).to.not.eql("'" + c + "'");
-              expect(eval(res)).to.eql(c);
-            }
-          }
-          else if(c >= 'a' && c <= 'z') {
-            expect(res).to.eql("'" + c + "'");
-          }
-          else {
-            expect(res).to.eql("'" + c + "'");
-          }
+          expect(res).to.eql("'" + c + "'");
         }
       });
     });
@@ -61,7 +57,7 @@ describe('simple tests', function() {
   });
   describe('gen#PRECODE exec', function() {
     before(function() {
-      console.log(gen.PRECODE);
+//      console.log(gen.PRECODE);
       eval(gen.PRECODE);
     });
     it('String.prototype[-1] should be a function', function() {
@@ -79,6 +75,9 @@ describe('simple tests', function() {
     it('String.prototype[-3] should be a function', function() {
       expect(typeof String.prototype[-3]).to.eql('function');
     });
+    it('should return a', function() {
+      expect(''[-3](97)).to.eql('a');
+    });
     after(function() {
       delete String.prototype[-1];
       delete String.prototype[-2];
@@ -89,19 +88,28 @@ describe('simple tests', function() {
     before(function() {
       eval(gen.PRECODE);
     });
-    it('abcdefijlnorstu should return getNumber', function() {
-      'abcdefijlnorstu'.split('').forEach(function(c) {
+    it('abcdefijlnorstuON should return getNumber', function() {
+      'abcdefijlnorstuON'.split('').forEach(function(c) {
         var res = gen.getString(c);
-        expect(res).to.not.eql(c);
+        //()[]形式
+        expect(/^\(.+\)\[.+\]$/.test(res)).to.be.ok();
         expect(eval(res)).to.eql(c);
       });
     });
-    it('other should return getNumber', function() {
+    it('ABCDEFIJLRSTU should return with getNumber and String.prototype[-2]', function() {
+      'ABCDEFIJLRSTU'.split('').forEach(function(c) {
+        var res = gen.getString(c);
+        //(()[])[]()形式
+        expect(/^\(\(.+\)\[.+\]\)\[.+\]\(\)$/.test(res)).to.be.ok();
+        expect(eval(res)).to.eql(c);
+      });
+    });
+    it('other should return fromCharCode', function() {
       'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
-        if(!inNumber[c]) {
+        if(!inNumber[c] && !inNumber[c.toLowerCase()]) {
           var res = gen.getString(c);
-            expect(res).to.not.eql(c);
-            expect(eval(res)).to.eql(c);
+          expect(/^''\[.+\]\(\d+\)/.test(res)).to.be.ok();
+          expect(eval(res)).to.eql(c);
         }
       });
     });

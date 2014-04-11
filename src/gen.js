@@ -13,19 +13,14 @@ function objectString() {
 function undefinedString() {
   return '[][+[]]+\'\'';
 }
-function fnaString() {
-  return '[].['
-    + falseString()[getNumber(3)]
-    + ']+\'\'';
-}
 function nanString() {
-  return '+{}';
+  return '+{}+\'\'';
 }
 var inNumber = Object.create(null);
 'abcdefijlnorstu'.split('').forEach(function(c) {
   inNumber[c] = true;
 });
-function getChar(c, direct) {
+function getChar(c, original) {
   switch(c) {
     case 'a':
       return wrap(falseString()) + '[' + getNumber(1) + ']';
@@ -57,8 +52,12 @@ function getChar(c, direct) {
       return wrap(trueString()) + '[' + getNumber(0) + ']';
     case 'u':
       return wrap(undefinedString()) + '[' + getNumber(0) + ']';
+    case 'N':
+      return wrap(nanString()) + '[' + getNumber(0) + ']';
+    case 'O':
+      return wrap(objectString()) + '[' + getNumber(8) + ']';
     default:
-      if(direct) {
+      if(original) {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
           return wrap(getChar(c.toLowerCase()))
             + '['
@@ -79,15 +78,15 @@ function getChar(c, direct) {
       }
   }
 }
-function getString(s, direct) {
+function getString(s, original) {
   if(s.length == 1) {
-    return getChar(s, direct);
+    return getChar(s, original);
   }
   else {
     var arr = s.split('');
     var res = [];
     arr.forEach(function(c) {
-      res.push(getChar(c, direct));
+      res.push(getChar(c, original));
     });
     for(var i = 0; i < res.length; i++) {
       var count = 0;
