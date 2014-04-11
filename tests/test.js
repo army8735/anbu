@@ -10,7 +10,7 @@ var inNumber = Object.create(null);
   inNumber[c] = true;
 });
 
-describe('simple tests', function() {
+describe('api tests', function() {
   describe('gen#getNumber', function() {
     it('Postive should be right', function() {
       for(var i = 0; i < 1025; i++) {
@@ -81,7 +81,7 @@ describe('simple tests', function() {
     after(function() {
       delete String.prototype[-1];
       delete String.prototype[-2];
-      delete String.prototype[-2];
+      delete String.prototype[-3];
     });
   });
   describe('gen#getString(s:String, false)', function() {
@@ -116,7 +116,33 @@ describe('simple tests', function() {
     after(function() {
       delete String.prototype[-1];
       delete String.prototype[-2];
-      delete String.prototype[-2];
+      delete String.prototype[-3];
+    });
+  });
+});
+describe('simple tests', function() {
+  describe('use orginal', function() {
+    it('encrypt number', function() {
+      var s = '123';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql(123);
+    });
+    it('encrypt string', function() {
+      var s = '"This is a string."';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql(s);
+    });
+    it('encrypt .property', function() {
+      var s = 'Object.alert = function(){return 1}';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      eval(s);
+      expect(Object.alert()).to.eql(1);
+      after(function() {
+        delete Object.alert;
+      });
     });
   });
 });
