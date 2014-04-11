@@ -180,7 +180,7 @@ var PRECODE = '\'\'['
   + getNumber(-1)
   + ']=function(i){return this['
   + getString('charAt', true)
-  + '](i)};'
+  + '](i)};\n'
   + '\'\'['
   + getString('constructor', true)
   +']['
@@ -189,7 +189,7 @@ var PRECODE = '\'\'['
   + getNumber(-2)
   + ']=function(){return this['
   + getString('toUpperCase', true)
-  + '](this)};'
+  + '](this)};\n'
   + '\'\'['
   + getString('constructor', true)
   +']['
