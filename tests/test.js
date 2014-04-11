@@ -55,8 +55,10 @@ describe('simple tests', function() {
       });
     });
   });
-  describe.only('gen#PRECODE exec', function() {
-    eval(gen.PRECODE);
+  describe('gen#PRECODE exec', function() {
+    before(function() {
+      eval(gen.PRECODE);
+    });
     it('String.prototype[-1] should be a function', function() {
       expect(typeof String.prototype[-1]).to.eql('function');
     });
@@ -72,8 +74,16 @@ describe('simple tests', function() {
     it('String.prototype[-3] should be a function', function() {
       expect(typeof String.prototype[-3]).to.eql('function');
     });
+    after(function() {
+      delete String.prototype[-1];
+      delete String.prototype[-2];
+      delete String.prototype[-2];
+    });
   });
   describe('gen#getString(s:String, false)', function() {
+    before(function() {
+      eval(gen.PRECODE);
+    });
     it('abcdefijlnorstu should return getNumber', function() {
       'abcdefijlnorstu'.split('').forEach(function(c) {
         var res = gen.getString(c);
@@ -81,22 +91,19 @@ describe('simple tests', function() {
         expect(eval(res)).to.eql(c);
       });
     });
-    it('other should return getNumber', function() {
+    it.only('other should return getNumber', function() {
       'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
         if(!inNumber[c]) {
           var res = gen.getString(c);
-          if(c >= 'A' && c <= 'Z') {
-              expect(res).to.not.eql(c);
-              expect(eval(res)).to.eql(c);
-          }
-          else if(c >= 'a' && c <= 'z') {
-//            expect(res).to.eql(c);
-          }
-          else {
-//            expect(res).to.eql(c);
-          }
+            expect(res).to.not.eql(c);
+            expect(eval(res)).to.eql(c);
         }
       });
+    });
+    after(function() {
+      delete String.prototype[-1];
+      delete String.prototype[-2];
+      delete String.prototype[-2];
     });
   });
 });

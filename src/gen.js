@@ -68,7 +68,7 @@ function getChar(c, direct) {
       }
       else {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
-          return '\'\'[' + getNumber(-2) + ']' + wrap(getChar(c.toLowerCase()));
+          return wrap(getChar(c.toLowerCase())) + '[' + getNumber(-2) + ']()';
         }
         else {
           return '\'\'[' + getNumber(-3) + ']' + wrap(c.charCodeAt(0));
