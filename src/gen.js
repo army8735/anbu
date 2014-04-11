@@ -17,7 +17,7 @@ function nanString() {
   return '+{}+\'\'';
 }
 var inNumber = Object.create(null);
-'abcdefijlnorstu'.split('').forEach(function(c) {
+'abcdefijlnorstu0123456789'.split('').forEach(function(c) {
   inNumber[c] = true;
 });
 function getChar(c, original) {

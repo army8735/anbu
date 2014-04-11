@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 
 var inNumber = Object.create(null);
-'abcdefijlnorstuNO'.split('').forEach(function(c) {
+'abcdefijlnorstuNO0123456789'.split('').forEach(function(c) {
   inNumber[c] = true;
 });
 
@@ -212,7 +212,7 @@ describe('jslib tests', function() {
     });
     it('not use orginal', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
-      var res = anbu.encrypt(s, true);
+      var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './lib/sea-debug-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
