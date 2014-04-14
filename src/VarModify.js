@@ -1,6 +1,5 @@
 var AbstractModify = require('./AbstractModify');
 var gen = require('./gen');
-var homunculus = require('homunculus');
 
 var VarModify = AbstractModify.extend(function(original, vardecl) {
   AbstractModify.call(this, original);
@@ -9,7 +8,7 @@ var VarModify = AbstractModify.extend(function(original, vardecl) {
     gen: function(code) {
       var start = this.start();
       var end = this.end();
-      var repl = 'this[' + gen.getString(this.vardecl.leaves()[0].token().content(), this.original) + ']';
+      var repl = 'this[' + gen.getAnbuString(this.vardecl.leaves()[0].token().content(), this.original) + ']';
       return code.slice(0, start) + repl + code.slice(end);
     },
     start: function() {

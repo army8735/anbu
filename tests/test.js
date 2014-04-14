@@ -201,7 +201,7 @@ describe('simple tests', function() {
   });
 });
 describe('jslib tests', function() {
-  describe('seajs', function() {
+  describe.only('seajs', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
       var res = anbu.encrypt(s, true);

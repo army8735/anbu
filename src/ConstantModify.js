@@ -12,7 +12,7 @@ var ConstantModify = AbstractModify.extend(function(original, token) {
     var end = this.end();
     var repl;
     if(this.token.type() == Token.STRING) {
-      repl = gen.getString(this.token.val(), this.original);
+      repl = gen.getAnbuString(this.token.val(), this.original);
     }
     else if(this.token.type() == Token.NUMBER) {
       repl = gen.getNumber(this.token.content(), this.original);

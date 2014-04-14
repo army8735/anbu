@@ -18,7 +18,7 @@ var PropertyModify = AbstractModify.extend(function(original, dot, propety) {
     }
     var start = this.start();
     var end = this.end();
-    var repl = gen.getString(this.propety.content(), this.original);
+    var repl = gen.getAnbuString(this.propety.content(), this.original);
     return code.slice(0, start) + '[' + repl + ']' + code.slice(end);
   },
   start: function() {

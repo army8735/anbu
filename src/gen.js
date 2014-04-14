@@ -226,9 +226,46 @@ function getNumber(n) {
     return s;
   }
 }
+function getAnbuChar(c, number) {
+  var i = 'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c);
+  if(i == -1) {
+    return "'" + c + "'";
+  }
+  else if(number) {
+    return 'anbu[' + i + ']';
+  }
+  else {
+    return 'anbu[' + getNumber(i) + ']';
+  }
+}
+function getAnbuString(s) {
+  s = String(s);
+  if(s.length == 1) {
+    return getAnbuChar(s);
+  }
+  else {
+    var arr = s.split('');
+    var res = [];
+    arr.forEach(function(c) {
+      var r = Math.random();
+      if(r > 0.8) {
+        res.push(getChar(c));
+      }
+      else if(r > 0.4) {
+        res.push(getAnbuChar(c, true));
+      }
+      else {
+        res.push(getAnbuChar(c));
+      }
+    });
+    return res.join('+');
+  }
+}
 
 exports.getNumber = getNumber;
 exports.getString = getString;
+exports.getAnbuString = getAnbuString;
+
 exports.STRING = getString('00', true);
 exports.STRING_PROTOTYE = getString('01', true);
 exports.CHAR_AT = getString('02', true);
@@ -272,8 +309,11 @@ var PRE_CODE = '\'\'['
   + ']=String['
   + getString('fromCharCode', true)
   + '];\n'
-exports.PRE_CODE = PRE_CODE;
-//eval(this['anbu'])上添加方法：0为charAt引用，1为toUpperCase引用，2为fromCharCode引用
-//exports.CHAR_AT = getString('01', true);
-//var PRE_CODE = 'eval(' + wrap(getString('this', true)) + ')[' + getString('anbu', true) + ']={"0":function(s, i){}}';
-//exports.PRE_CODE = PRE_CODE;
+//为26个字母添加快捷访问方式，从anbu[0]开始
+var PRE_CODE2 = 'this[' + getString('anbu') + ']=[';
+var arr = [];
+'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c, i) {
+  arr.push(getString(c));
+});
+PRE_CODE2 += arr.join(', ') + '];\n';
+exports.PRE_CODE = PRE_CODE + PRE_CODE2;
