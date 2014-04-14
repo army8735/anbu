@@ -2,16 +2,22 @@ function wrap(s) {
   return '(' + s + ')';
 }
 function trueString() {
-  return '!\'\'+[]';
+  var res = ['!\'\'+[]', '!\'\'+\'\''];
+  var r = Math.floor(Math.random() * res.length);
+  return res[r];
 }
 function falseString() {
-  return '![]+[]';
+  var res = ['![]+[]', '!{}+[]', '![]+\'\'', '!{}+\'\'', '!!\'\'+[]'];
+  var r = Math.floor(Math.random() * res.length);
+  return res[r];
 }
 function objectString() {
   return '\'\'+{}';
 }
 function undefinedString() {
-  return '[][+[]]+\'\'';
+  var res = ['[][+[]]+\'\'', '\'\'[+[]]+\'\''];
+  var r = Math.floor(Math.random() * res.length);
+  return res[r];
 }
 function nanString() {
   return '+{}+\'\'';
@@ -90,15 +96,16 @@ function getChar(c, original) {
       }
       else {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
-          return wrap(getChar(c.toLowerCase())) + '[' + getNumber(-2) + ']()';
+          return wrap(getChar(c.toLowerCase())) + '[' + exports.TOUPPERCASE + ']()';
         }
         else {
-          return '\'\'[' + getNumber(-3) + ']' + wrap(getNumber(c.charCodeAt(0)));
+          return '\'\'[' + exports.FROMCHARCODE + ']' + wrap(getNumber(c.charCodeAt(0)));
         }
       }
   }
 }
 function getString(s, original) {
+  s = String(s);
   if(s.length == 1) {
     return getChar(s, original);
   }
@@ -171,32 +178,42 @@ function getNumber(n) {
 
 exports.getNumber = getNumber;
 exports.getString = getString;
-//String.prototype上添加方法：-1为charAt，-2为toUpperCase，-3为fromCharCode
+exports.STRINGPROTOTYE = getString('00', true)
+exports.CHARAT = getString('01', true);
+exports.TOUPPERCASE = getString('02', true);
+exports.FROMCHARCODE = getString('03', true);
+//String.prototype上添加方法：00为本身引用，01为charAt引用，02为toUpperCase引用，03为fromCharCode引用
 var PRECODE = '\'\'['
   + getString('constructor', true)
-  +']\n['
+  +']['
   + getString('prototype', true)
-  +']\n['
-  + getNumber(-1)
-  + ']=function(i){return this['
+  + ']['
+  + exports.STRINGPROTOTYE
+  + ']=\'\'['
+  + getString('constructor', true)
+  +']['
+  + getString('prototype', true)
+  + '];\n\'\'['
+  + exports.STRINGPROTOTYE
+  +']['
+  + exports.CHARAT
+  + ']=\'\'['
   + getString('charAt', true)
-  + '](i)};\n'
+  + '];\n'
   + '\'\'['
-  + getString('constructor', true)
-  +']\n['
-  + getString('prototype', true)
-  +']\n['
-  + getNumber(-2)
-  + ']=function(){return this['
+  + exports.STRINGPROTOTYE
+  +']['
+  + exports.TOUPPERCASE
+  + ']=\'\'['
   + getString('toUpperCase', true)
-  + '](this)};\n'
+  + '];\n'
   + '\'\'['
+  + exports.STRINGPROTOTYE
+  +']['
+  + exports.FROMCHARCODE
+  + ']=\'\'['
   + getString('constructor', true)
-  +']\n['
-  + getString('prototype', true)
-  +']\n['
-  + getNumber(-3)
-  + ']=function(n){return String['
+  + ']['
   + getString('fromCharCode', true)
-  + '](n)};'
+  + '];\n'
 exports.PRECODE = PRECODE;
