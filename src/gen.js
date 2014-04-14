@@ -189,13 +189,19 @@ function getString(s, original) {
 }
 function getPostiveNumber(n) {
   if(n == 0) {
-    return '-[]';
+    var res = ['-[]', '-\'\'', '+[]', '+\'\''];
+    var r = Math.floor(Math.random() * res.length);
+    return res[r];
   }
   else if(n == 1) {
-    return '-~[]';
+    var res = ['-~[]', '-~\'\''];
+    var r = Math.floor(Math.random() * res.length);
+    return res[r];
   }
   else if(n == 2) {
-    return '-~-~[]';
+    var res = ['-~-~[]', '-~-~\'\''];
+    var r = Math.floor(Math.random() * res.length);
+    return res[r];
   }
   else if(n == 3) {
     return getPostiveNumber(2) + getPostiveNumber(1);
@@ -232,16 +238,7 @@ function getAnbuChar(c) {
     return "'" + c + "'";
   }
   else {
-    var r = Math.random();
-    if(r > 0.5) {
-      return '\'\'[' + exports.CACHE + '][' + i + ']';
-    }
-    else if(r > 0.1) {
-      return '\'\'[' + exports.CACHE + '][' + getNumber(i) + ']';
-    }
-    else {
-      return getChar(c);
-    }
+    return '\'\'[' + exports.CACHE + '][' + getNumber(i) + ']';
   }
 }
 function getAnbuString(s) {
