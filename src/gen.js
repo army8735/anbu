@@ -226,16 +226,22 @@ function getNumber(n) {
     return s;
   }
 }
-function getAnbuChar(c, number) {
+function getAnbuChar(c) {
   var i = 'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c);
   if(i == -1) {
     return "'" + c + "'";
   }
-  else if(number) {
-    return 'anbu[' + i + ']';
-  }
   else {
-    return 'anbu[' + getNumber(i) + ']';
+    var r = Math.random();
+    if(r > 0.5) {
+      return '\'\'[' + exports.CACHE + '][' + i + ']';
+    }
+    else if(r > 0.1) {
+      return '\'\'[' + exports.CACHE + '][' + getNumber(i) + ']';
+    }
+    else {
+      return getChar(c);
+    }
   }
 }
 function getAnbuString(s) {
@@ -247,16 +253,7 @@ function getAnbuString(s) {
     var arr = s.split('');
     var res = [];
     arr.forEach(function(c) {
-      var r = Math.random();
-      if(r > 0.8) {
-        res.push(getChar(c));
-      }
-      else if(r > 0.4) {
-        res.push(getAnbuChar(c, true));
-      }
-      else {
-        res.push(getAnbuChar(c));
-      }
+      res.push(getAnbuChar(c));
     });
     return res.join('+');
   }
@@ -271,6 +268,7 @@ exports.STRING_PROTOTYE = getString('01', true);
 exports.CHAR_AT = getString('02', true);
 exports.TO_UPPER_CASE = getString('03', true);
 exports.FROM_CHAR_CODE = getString('04', true);
+exports.CACHE = getString('05', true);
 //String.prototype上添加方法：00为本身引用，01为原型引用，02为charAt引用，03为toUpperCase引用，04为fromCharCode引用
 var PRE_CODE = '\'\'['
   + getString('constructor', true)
@@ -308,11 +306,11 @@ var PRE_CODE = '\'\'['
   + exports.FROM_CHAR_CODE
   + ']=String['
   + getString('fromCharCode', true)
-  + '];\n'
-//为26个字母添加快捷访问方式，从anbu[0]开始
-var PRE_CODE2 = 'this[' + getString('anbu') + ']=[';
-var arr = [];
-'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c, i) {
+  + '];\n';
+//为26个字母添加快捷访问方式
+var PRE_CODE2 = '\'\'[' + exports.STRING_PROTOTYE + '][' + exports.CACHE + ']=[';
+arr = [];
+'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
   arr.push(getString(c));
 });
 PRE_CODE2 += arr.join(', ') + '];\n';
