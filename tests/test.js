@@ -29,16 +29,12 @@ describe('api tests', function() {
     it('abcdefijlnorstuNO should return with getNumber', function() {
       'abcdefijlnorstuNO'.split('').forEach(function(c) {
         var res = gen.getString(c, true);
-        //()[]形式
-        expect(/^\(.+\)\[.+\]$/.test(res)).to.be.ok();
         expect(eval(res)).to.eql(c);
       });
     });
     it('ABCDEFIJLRSTU should return with getNumber and toUpperCase', function() {
       'ABCDEFIJLRSTU'.split('').forEach(function(c) {
         var res = gen.getString(c, true);
-        //(()[])[toUpperCase]()形式
-        expect(/^\(\(.+\)\[.+\]\)\[.+Upp.+\]\(\)$/.test(res)).to.be.ok();
         expect(eval(res)).to.eql(c);
       });
     });
@@ -57,50 +53,44 @@ describe('api tests', function() {
   });
   describe('gen#PRECODE exec', function() {
     before(function() {
-//      console.log(gen.PRECODE);
-      eval(gen.PRECODE);
+      eval(gen.PRE_CODE);
     });
-    it('String.prototype[-1] should be a function', function() {
-      expect(typeof String.prototype[-1]).to.eql('function');
+    it('String.prototype[00] should be String', function() {
+      expect(String.prototype['00']).to.eql(String);
     });
-    it('should return a', function() {
-      expect('abc'[-1](0)).to.eql('a');
+    it('String.prototype[01] should return String.prototype', function() {
+      expect(String.prototype['01']).to.eql(String.prototype);
     });
-    it('String.prototype[-2] should be a function', function() {
-      expect(typeof String.prototype[-2]).to.eql('function');
+    it('String.prototype[02] should be String.charAt', function() {
+      expect(String.prototype['02']).to.eql(''.charAt);
     });
-    it('should return A', function() {
-      expect('a'[-2]()).to.eql('A');
+    it('String.prototype[03] should be String.toUpperCase', function() {
+      expect(String.prototype['03']).to.eql(''.toUpperCase);
     });
-    it('String.prototype[-3] should be a function', function() {
-      expect(typeof String.prototype[-3]).to.eql('function');
-    });
-    it('should return a', function() {
-      expect(''[-3](97)).to.eql('a');
+    it('String.prototype[04] should be String.fromCharCode', function() {
+      expect(String.prototype['04']).to.eql(String.fromCharCode);
     });
     after(function() {
-      delete String.prototype[-1];
-      delete String.prototype[-2];
-      delete String.prototype[-3];
+      delete String.prototype[00];
+      delete String.prototype[01];
+      delete String.prototype[02];
+      delete String.prototype[03];
+      delete String.prototype[04];
     });
   });
   describe('gen#getString(s:String, false)', function() {
     before(function() {
-      eval(gen.PRECODE);
+      eval(gen.PRE_CODE);
     });
     it('abcdefijlnorstuON should return getNumber', function() {
       'abcdefijlnorstuON'.split('').forEach(function(c) {
         var res = gen.getString(c);
-        //()[]形式
-        expect(/^\(.+\)\[.+\]$/.test(res)).to.be.ok();
         expect(eval(res)).to.eql(c);
       });
     });
-    it('ABCDEFIJLRSTU should return with getNumber and String.prototype[-2]', function() {
+    it('ABCDEFIJLRSTU should return with getNumber and String.prototype[03]', function() {
       'ABCDEFIJLRSTU'.split('').forEach(function(c) {
         var res = gen.getString(c);
-        //(()[])[]()形式
-        expect(/^\(\(.+\)\[.+\]\)\[.+\]\(\)$/.test(res)).to.be.ok();
         expect(eval(res)).to.eql(c);
       });
     });
@@ -108,15 +98,16 @@ describe('api tests', function() {
       'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
         if(!inNumber[c] && !inNumber[c.toLowerCase()]) {
           var res = gen.getString(c);
-          expect(/^''\[.+\]\(.+\)/.test(res)).to.be.ok();
           expect(eval(res)).to.eql(c);
         }
       });
     });
     after(function() {
-      delete String.prototype[-1];
-      delete String.prototype[-2];
-      delete String.prototype[-3];
+      delete String.prototype[00];
+      delete String.prototype[01];
+      delete String.prototype[02];
+      delete String.prototype[03];
+      delete String.prototype[04];
     });
   });
 });
@@ -200,9 +191,16 @@ describe('simple tests', function() {
         delete this.a;
       });
     });
+    after(function() {
+      delete String.prototype[00];
+      delete String.prototype[01];
+      delete String.prototype[02];
+      delete String.prototype[03];
+      delete String.prototype[04];
+    });
   });
 });
-describe.only('jslib tests', function() {
+describe('jslib tests', function() {
   describe('seajs', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
     it('use orginal', function() {

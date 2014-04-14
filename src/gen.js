@@ -29,39 +29,90 @@ var inNumber = Object.create(null);
 function getChar(c, original) {
   switch(c) {
     case 'a':
-      return wrap(falseString()) + '[' + getNumber(1) + ']';
+      if(original) {
+        return wrap(falseString()) + '.charAt(' + getNumber(1) + ')'
+      }
+      return wrap(falseString()) + '['+ exports.CHAR_AT + '](' + getNumber(1) + ')';
     case 'b':
-      return wrap(objectString()) + '[' + getNumber(2) + ']';
+      if(original) {
+        return wrap(objectString()) + '.charAt(' + getNumber(2) + ')';
+      }
+      return wrap(objectString()) + '['+ exports.CHAR_AT + '](' + getNumber(2) + ')';
     case 'c':
-      return wrap(objectString()) + '[' + getNumber(5) + ']';
+      if(original) {
+        return wrap(objectString()) + '.charAt(' + getNumber(5) + ')';
+      }
+      return wrap(objectString()) + '['+ exports.CHAR_AT + '](' + getNumber(5) + ')';
     case 'd':
-      return wrap(undefinedString()) + '[' + getNumber(2) + ']';
+      if(original) {
+        return wrap(undefinedString()) + '.charAt(' + getNumber(2) + ')';
+      }
+      return wrap(undefinedString()) + '['+ exports.CHAR_AT + '](' + getNumber(2) + ')';
     case 'e':
-      return wrap(undefinedString()) + '[' + getNumber(3) + ']';
+      if(original) {
+        return wrap(undefinedString()) + '.charAt(' + getNumber(3) + ')';
+      }
+      return wrap(undefinedString()) + '['+ exports.CHAR_AT + '](' + getNumber(3) + ')';
     case 'f':
-      return wrap(falseString()) + '[' + getNumber(0) + ']';
+      if(original) {
+        return wrap(falseString()) + '.charAt(' + getNumber(0) + ')';
+      }
+      return wrap(falseString()) + '['+ exports.CHAR_AT + '](' + getNumber(0) + ')';
     case 'i':
-      return wrap(undefinedString()) + '[' + getNumber(5) + ']';
+      if(original) {
+        return wrap(undefinedString()) + '.charAt(' + getNumber(5) + ')';
+      }
+      return wrap(undefinedString()) + '['+ exports.CHAR_AT + '](' + getNumber(5) + ')';
     case 'j':
-      return wrap(objectString()) + '[' + getNumber(3) + ']';
+      if(original) {
+        return wrap(objectString()) + '.charAt(' + getNumber(3) + ')';
+      }
+      return wrap(objectString()) + '['+ exports.CHAR_AT + '](' + getNumber(3) + ')';
     case 'l':
-      return wrap(falseString()) + '[' + getNumber(2) + ']';
+      if(original) {
+        return wrap(falseString()) + '.charAt(' + getNumber(2) + ')';
+      }
+      return wrap(falseString()) + '['+ exports.CHAR_AT + '](' + getNumber(2) + ')';
     case 'n':
-      return wrap(undefinedString()) + '[' + getNumber(1) + ']';
+      if(original) {
+        return wrap(undefinedString()) + '.charAt(' + getNumber(1) + ')';
+      }
+      return wrap(undefinedString()) + '['+ exports.CHAR_AT + '](' + getNumber(1) + ')';
     case 'o':
-      return wrap(objectString()) + '[' + getNumber(1) + ']';
+      if(original) {
+        return wrap(objectString()) + '.charAt(' + getNumber(1) + ')';
+      }
+      return wrap(objectString()) + '['+ exports.CHAR_AT + '](' + getNumber(1) + ')';
     case 'r':
-      return wrap(trueString()) + '[' + getNumber(1) + ']';
+      if(original) {
+        return wrap(trueString()) + '.charAt(' + getNumber(1) + ')';
+      }
+      return wrap(trueString()) + '['+ exports.CHAR_AT + '](' + getNumber(1) + ')';
     case 's':
-      return wrap(falseString()) + '[' + getNumber(3) + ']';
+      if(original) {
+        return wrap(falseString()) + '.charAt(' + getNumber(3) + ')';
+      }
+      return wrap(falseString()) + '['+ exports.CHAR_AT + '](' + getNumber(3) + ')';
     case 't':
-      return wrap(trueString()) + '[' + getNumber(0) + ']';
+      if(original) {
+        return wrap(trueString()) + '.charAt(' + getNumber(0) + ')';
+      }
+      return wrap(trueString()) + '['+ exports.CHAR_AT + '](' + getNumber(0) + ')';
     case 'u':
-      return wrap(undefinedString()) + '[' + getNumber(0) + ']';
+      if(original) {
+        return wrap(undefinedString()) + '.charAt(' + getNumber(0) + ')';
+      }
+      return wrap(undefinedString()) + '['+ exports.CHAR_AT + '](' + getNumber(0) + ')';
     case 'N':
-      return wrap(nanString()) + '[' + getNumber(0) + ']';
+      if(original) {
+        return wrap(nanString()) + '.charAt(' + getNumber(0) + ')';
+      }
+      return wrap(nanString()) + '['+ exports.CHAR_AT + '](' + getNumber(0) + ')';
     case 'O':
-      return wrap(objectString()) + '[' + getNumber(8) + ']';
+      if(original) {
+        return wrap(objectString()) + '.charAt(' + getNumber(8) + ')';
+      }
+      return wrap(objectString()) + '['+ exports.CHAR_AT + '](' + getNumber(8) + ')';
     case '1':
       return wrap(getNumber(1)) + '+\'\'';
     case '2':
@@ -85,9 +136,9 @@ function getChar(c, original) {
     default:
       if(original) {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
-          return wrap(getChar(c.toLowerCase()))
+          return wrap(getChar(c.toLowerCase(), true))
             + '['
-            + getString('to') + '+\'Upp\'+' + getString('er') + '+\'C\'+' + getString('ase', true)
+            + getString('to', true) + '+\'Upp\'+' + getString('er', true) + '+\'C\'+' + getString('ase', true)
             + ']()';
         }
         else {
@@ -96,10 +147,10 @@ function getChar(c, original) {
       }
       else {
         if(c >= 'A' && c <= 'Z' && inNumber[c.toLowerCase()]) {
-          return wrap(getChar(c.toLowerCase())) + '[' + exports.TOUPPERCASE + ']()';
+          return wrap(getChar(c.toLowerCase())) + '[' + exports.TO_UPPER_CASE + ']()';
         }
         else {
-          return '\'\'[' + exports.FROMCHARCODE + ']' + wrap(getNumber(c.charCodeAt(0)));
+          return '\'\'[' + exports.FROM_CHAR_CODE + ']' + wrap(getNumber(c.charCodeAt(0)));
         }
       }
   }
@@ -178,42 +229,51 @@ function getNumber(n) {
 
 exports.getNumber = getNumber;
 exports.getString = getString;
-exports.STRINGPROTOTYE = getString('00', true)
-exports.CHARAT = getString('01', true);
-exports.TOUPPERCASE = getString('02', true);
-exports.FROMCHARCODE = getString('03', true);
-//String.prototype上添加方法：00为本身引用，01为charAt引用，02为toUpperCase引用，03为fromCharCode引用
-var PRECODE = '\'\'['
+exports.STRING = getString('00', true);
+exports.STRING_PROTOTYE = getString('01', true);
+exports.CHAR_AT = getString('02', true);
+exports.TO_UPPER_CASE = getString('03', true);
+exports.FROM_CHAR_CODE = getString('04', true);
+//String.prototype上添加方法：00为本身引用，01为原型引用，02为charAt引用，03为toUpperCase引用，04为fromCharCode引用
+var PRE_CODE = '\'\'['
   + getString('constructor', true)
   +']['
   + getString('prototype', true)
   + ']['
-  + exports.STRINGPROTOTYE
-  + ']=\'\'['
-  + getString('constructor', true)
-  +']['
+  + exports.STRING
+  + ']=String;\n'
+  + '\'\'['
+  + exports.STRING
+  + ']['
   + getString('prototype', true)
-  + '];\n\'\'['
-  + exports.STRINGPROTOTYE
+  + ']['
+  + exports.STRING_PROTOTYE
+  + ']=String['
+  + getString('prototype', true)
+  + '];\n'
+  + '\'\'['
+  + exports.STRING_PROTOTYE
   +']['
-  + exports.CHARAT
+  + exports.CHAR_AT
   + ']=\'\'['
   + getString('charAt', true)
   + '];\n'
   + '\'\'['
-  + exports.STRINGPROTOTYE
+  + exports.STRING_PROTOTYE
   +']['
-  + exports.TOUPPERCASE
+  + exports.TO_UPPER_CASE
   + ']=\'\'['
   + getString('toUpperCase', true)
   + '];\n'
   + '\'\'['
-  + exports.STRINGPROTOTYE
+  + exports.STRING_PROTOTYE
   +']['
-  + exports.FROMCHARCODE
-  + ']=\'\'['
-  + getString('constructor', true)
-  + ']['
+  + exports.FROM_CHAR_CODE
+  + ']=String['
   + getString('fromCharCode', true)
   + '];\n'
-exports.PRECODE = PRECODE;
+exports.PRE_CODE = PRE_CODE;
+//eval(this['anbu'])上添加方法：0为charAt引用，1为toUpperCase引用，2为fromCharCode引用
+//exports.CHAR_AT = getString('01', true);
+//var PRE_CODE = 'eval(' + wrap(getString('this', true)) + ')[' + getString('anbu', true) + ']={"0":function(s, i){}}';
+//exports.PRE_CODE = PRE_CODE;

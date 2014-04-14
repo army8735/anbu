@@ -26,7 +26,7 @@ exports.encrypt = function(code, original) {
     code = modify.gen(code);
   });
   if(!original) {
-    code = gen.PRECODE + code;
+    code = gen.PRE_CODE + code;
   }
   return code;
 };
