@@ -201,7 +201,7 @@ describe('simple tests', function() {
   });
 });
 describe('jslib tests', function() {
-  describe.only('seajs', function() {
+  describe('seajs', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
       var res = anbu.encrypt(s, true);
@@ -213,9 +213,6 @@ describe('jslib tests', function() {
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './lib/sea-debug-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
-    });
-    after(function() {
-      delete this.seajs;
     });
   });
 });

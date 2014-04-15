@@ -241,8 +241,11 @@ function getAnbuChar(c) {
     return '\'\'[' + exports.CACHE + '][' + getNumber(i) + ']';
   }
 }
-function getAnbuString(s) {
+function getAnbuString(s, original) {
   s = String(s);
+  if(original) {
+    return getString(s, true);
+  }
   if(s.length == 1) {
     return getAnbuChar(s);
   }
@@ -308,7 +311,7 @@ var PRE_CODE = '\'\'['
 var PRE_CODE2 = '\'\'[' + exports.STRING_PROTOTYE + '][' + exports.CACHE + ']=[';
 arr = [];
 'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
-  arr.push(getString(c));
+  arr.push(getChar(c));
 });
 PRE_CODE2 += arr.join(', ') + '];\n';
 exports.PRE_CODE = PRE_CODE + PRE_CODE2;
