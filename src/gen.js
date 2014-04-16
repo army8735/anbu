@@ -276,7 +276,7 @@ var PRE_CODE = '\'\'['
   + getString('prototype', true)
   + ']['
   + exports.STRING
-  + ']=String;\n'
+  + ']=String;'
   + '\'\'['
   + exports.STRING
   + ']['
@@ -285,21 +285,21 @@ var PRE_CODE = '\'\'['
   + exports.STRING_PROTOTYE
   + ']=String['
   + getString('prototype', true)
-  + '];\n'
+  + '];'
   + '\'\'['
   + exports.STRING_PROTOTYE
   +']['
   + exports.CHAR_AT
   + ']=\'\'['
   + getString('charAt', true)
-  + '];\n'
+  + '];'
   + '\'\'['
   + exports.STRING_PROTOTYE
   +']['
   + exports.TO_UPPER_CASE
   + ']=\'\'['
   + getString('toUpperCase', true)
-  + '];\n'
+  + '];'
   + '\'\'['
   + exports.STRING_PROTOTYE
   +']['
