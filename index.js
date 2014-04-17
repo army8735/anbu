@@ -41,7 +41,7 @@ function recursion(node, original) {
       if(token.type() == Token.STRING && token.val().length) {
         modifies.push(new ConstantModify(original, token));
       }
-      else if(token.type() == Token.NUMBER) {
+      else if(token.type() == Token.NUMBER && token.content().indexOf('.') == -1) {
         modifies.push(new ConstantModify(original, token));
       }
     }
