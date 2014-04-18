@@ -142,7 +142,7 @@ function getChar(c, original) {
             + ']()';
         }
         else {
-          return "'" + c + "'";
+          return "'" + c.replace('\'', '\\\'') + "'";
         }
       }
       else {
@@ -151,7 +151,7 @@ function getChar(c, original) {
         }
         else {
           if(c.length > 1) {
-            c = JSON.parse('"' + c + '"');
+            c = eval('"' + c + '"');
           }
           return '\'\'[' + exports.FROM_CHAR_CODE + ']' + wrap(getNumber(c.charCodeAt(0)));
         }
@@ -164,8 +164,8 @@ function getString(s, original) {
     return getChar(s, original);
   }
   else {
-    var arr = s.split('');console.log(arr)
-    decode(arr);console.log(arr)
+    var arr = s.split('');
+    decode(arr);
     var res = [];
     arr.forEach(function(c) {
       res.push(getChar(c, original));
@@ -176,7 +176,10 @@ function getString(s, original) {
       while(true) {
         var now = res[i+count];
         count++;
-        if(/^'.'$/.test(now)) {
+        if(/^'.'$/.test(now)
+          || /^'\\u[a-fA-F\d]{4}'$/.test(now)
+          || /^'\\x[a-fA-F\d]{2}'$/.test(now)
+          || /^'\\[^']'$/.test(now)) {
           cache.push(now);
         }
         else {
@@ -240,7 +243,7 @@ function getAnbuChar(c) {
   var i = 'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c);
   if(i == -1) {
     if(c.length > 1) {
-      c = JSON.parse('"' + c + '"');
+      c = eval('"' + c + '"');
     }
     return '\'\'[' + exports.FROM_CHAR_CODE + ']' + wrap(getNumber(c.charCodeAt(0)));
   }

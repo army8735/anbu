@@ -125,6 +125,12 @@ describe('simple tests', function() {
       expect(res).to.not.eql(s);
       expect(eval(res)).to.eql("This is a string.");
     });
+    it('encrypt quote', function() {
+      var s = '"=\'"';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql("='");
+    });
     it('encrypt unicode string', function() {
       var s = '"\\n"';
       var res = anbu.encrypt(s, true);
