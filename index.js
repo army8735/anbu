@@ -42,10 +42,10 @@ function recursion(node, original) {
       var token = node.token();
       //改写常量
       if(token.type() == Token.STRING && token.val().length) {
-//        modifies.push(new ConstantModify(original, token));
+        modifies.push(new ConstantModify(original, token));
       }
       else if(token.type() == Token.NUMBER && token.content().indexOf('.') == -1) {
-//        modifies.push(new ConstantModify(original, token));
+        modifies.push(new ConstantModify(original, token));
       }
     }
   }
