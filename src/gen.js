@@ -150,6 +150,9 @@ function getChar(c, original) {
           return wrap(getChar(c.toLowerCase())) + '[' + exports.TO_UPPER_CASE + ']()';
         }
         else {
+          if(c.length > 1) {
+            c = JSON.parse('"' + c + '"');
+          }
           return '\'\'[' + exports.FROM_CHAR_CODE + ']' + wrap(getNumber(c.charCodeAt(0)));
         }
       }
@@ -161,7 +164,8 @@ function getString(s, original) {
     return getChar(s, original);
   }
   else {
-    var arr = s.split('');
+    var arr = s.split('');console.log(arr)
+    decode(arr);console.log(arr)
     var res = [];
     arr.forEach(function(c) {
       res.push(getChar(c, original));
@@ -235,7 +239,10 @@ function getNumber(n) {
 function getAnbuChar(c) {
   var i = 'abcdefghijklmnopqrstuvwxyz_$1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'.indexOf(c);
   if(i == -1) {
-    return "'" + c + "'";
+    if(c.length > 1) {
+      c = JSON.parse('"' + c + '"');
+    }
+    return '\'\'[' + exports.FROM_CHAR_CODE + ']' + wrap(getNumber(c.charCodeAt(0)));
   }
   else {
     return '\'\'[' + exports.CACHE + '][' + getNumber(i) + ']';
@@ -251,12 +258,31 @@ function getAnbuString(s, original) {
   }
   else {
     var arr = s.split('');
+    decode(arr);
     var res = [];
     arr.forEach(function(c) {
       res.push(getAnbuChar(c));
     });
     return res.join('+');
   }
+}
+function decode(arr) {
+  for(var i = 0; i < arr.length; i++) {
+    var c = arr[i];
+    if(c == '\\') {
+      c = arr[i+1];
+      if(c == 'u') {
+        arr[i] += arr.splice(i+1, 5).join('');
+      }
+      else if(c == 'x') {
+        arr[i] += arr.splice(i+1, 3).join('');
+      }
+      else {
+        arr[i] += arr.splice(i+1, 1).join('');
+      }
+    }
+  }
+  return arr;
 }
 
 exports.getNumber = getNumber;

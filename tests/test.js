@@ -39,7 +39,7 @@ describe('api tests', function() {
       });
     });
     it('other should return director', function() {
-      'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
+      'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ\\\n\u0000'.split('').forEach(function(c) {
         if(!inNumber[c] && !inNumber[c.toLowerCase()]) {
           var res = gen.getString(c, true);
           expect(res).to.eql("'" + c + "'");
@@ -95,7 +95,7 @@ describe('api tests', function() {
       });
     });
     it('other should return fromCharCode', function() {
-      'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(function(c) {
+      'abcdefghijklmnopqrstuvwxyz_$ABCDEFGHIJKLMNOPQRSTUVWXYZ\\\n\u0000'.split('').forEach(function(c) {
         if(!inNumber[c] && !inNumber[c.toLowerCase()]) {
           var res = gen.getString(c);
           expect(eval(res)).to.eql(c);
@@ -123,7 +123,19 @@ describe('simple tests', function() {
       var s = '"This is a string."';
       var res = anbu.encrypt(s, true);
       expect(res).to.not.eql(s);
-      expect(eval(res)).to.eql(s.slice(1, -1));
+      expect(eval(res)).to.eql("This is a string.");
+    });
+    it('encrypt unicode string', function() {
+      var s = '"\\n"';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql("\n");
+    });
+    it('encrypt unicode string 2', function() {
+      var s = '"\\\\["';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql("\\[");
     });
     it('encrypt number in string', function() {
       var s = '"1234567890"';
@@ -170,6 +182,18 @@ describe('simple tests', function() {
       var res = anbu.encrypt(s);
       expect(res).to.not.eql(s);
       expect(eval(res)).to.eql(s.slice(1, -1));
+    });
+    it('encrypt unicode string', function() {
+      var s = '"\\n"';
+      var res = anbu.encrypt(s);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql("\n");
+    });
+    it('encrypt unicode string 2', function() {
+      var s = '"\\\\["';
+      var res = anbu.encrypt(s);
+      expect(res).to.not.eql(s);
+      expect(eval(res)).to.eql("\\[");
     });
     it('encrypt .property', function() {
       var s = 'Object.alert = function(){return 1}';
@@ -226,6 +250,20 @@ describe('jslib tests', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/sea.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './lib/sea-encrypt-plus.js'), res, { encoding: 'utf-8' });
+      expect(res).to.not.eql(s);
+    });
+  });
+  describe('jquery', function() {
+    var s = fs.readFileSync(path.join(__dirname, './lib/jquery-1.11.0.min.js'), { encoding: 'utf-8' });
+    it.only('use orginal', function() {
+      var res = anbu.encrypt(s, true);
+      fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt.js'), res, { encoding: 'utf-8' });
+      expect(res).to.not.eql(s);
+    });
+    it('not use orginal', function() {
+      var s = fs.readFileSync(path.join(__dirname, './lib/jquery-1.11.0.min.js'), { encoding: 'utf-8' });
+      var res = anbu.encrypt(s);
+      fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
   });
