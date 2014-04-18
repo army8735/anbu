@@ -260,14 +260,14 @@ describe('jslib tests', function() {
     });
   });
   describe('jquery', function() {
-    var s = fs.readFileSync(path.join(__dirname, './lib/jquery-1.11.0.min.js'), { encoding: 'utf-8' });
+    var s = fs.readFileSync(path.join(__dirname, './lib/jquery.js'), { encoding: 'utf-8' });
     it.only('use orginal', function() {
       var res = anbu.encrypt(s, true);
       fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
     it('not use orginal', function() {
-      var s = fs.readFileSync(path.join(__dirname, './lib/jquery-1.11.0.min.js'), { encoding: 'utf-8' });
+      var s = fs.readFileSync(path.join(__dirname, './lib/jquery.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
