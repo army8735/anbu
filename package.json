@@ -14,7 +14,7 @@
   },
   "config": {
     "blanket": {
-      "pattern": ["anbu/amdify.js",
+      "pattern": ["anbu/index.js",
         "anbu/src"]
     }
   },
