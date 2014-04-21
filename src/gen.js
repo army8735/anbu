@@ -191,7 +191,7 @@ function getString(s, original) {
         i += count;
       }
     }
-    return res.join('+');
+    return wrap(res.join('+'));
   }
 }
 function getPostiveNumber(n) {
@@ -266,7 +266,7 @@ function getAnbuString(s, original) {
     arr.forEach(function(c) {
       res.push(getAnbuChar(c));
     });
-    return res.join('+');
+    return wrap(res.join('+'));
   }
 }
 function decode(arr) {

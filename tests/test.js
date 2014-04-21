@@ -48,7 +48,7 @@ describe('api tests', function() {
     });
     it('other series should return together', function() {
       var res = gen.getString('xyz', true);
-      expect(res).to.eql('\'xyz\'');
+      expect(res).to.eql('(\'xyz\')');
     });
   });
   describe('gen#PRECODE exec', function() {
@@ -261,7 +261,7 @@ describe('jslib tests', function() {
   });
   describe('jquery', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/jquery.js'), { encoding: 'utf-8' });
-    it.only('use orginal', function() {
+    it('use orginal', function() {
       var res = anbu.encrypt(s, true);
       fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
@@ -270,6 +270,20 @@ describe('jslib tests', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/jquery.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt-plus.js'), res, { encoding: 'utf-8' });
+      expect(res).to.not.eql(s);
+    });
+  });
+  describe('jquery-min', function() {
+    var s = fs.readFileSync(path.join(__dirname, './lib/jquery-min.js'), { encoding: 'utf-8' });
+    it('use orginal', function() {
+      var res = anbu.encrypt(s, true);
+      fs.writeFileSync(path.join(__dirname, './lib/jquery-min-encrypt.js'), res, { encoding: 'utf-8' });
+      expect(res).to.not.eql(s);
+    });
+    it('not use orginal', function() {
+      var s = fs.readFileSync(path.join(__dirname, './lib/jquery-min.js'), { encoding: 'utf-8' });
+      var res = anbu.encrypt(s);
+      fs.writeFileSync(path.join(__dirname, './lib/jquery-min-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
   });
