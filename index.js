@@ -8,7 +8,6 @@ var Token = homunculus.getClass('token');
 
 var gen = require('./src/gen');
 
-var modifies;
 var confilct;
 
 exports.encrypt = function(code, original) {
@@ -17,11 +16,10 @@ exports.encrypt = function(code, original) {
   var ast = context.parser.ast();
   var tokens = context.parser.lexer.tokens();
 
-  modifies = [];
   //将要改写的token记录下来并防止重复
   confilct = Object.create(null);
   recursion(ast, original);
-//  analyse(context, original);
+  analyse(context, original);
 
   //拼接tokens，替换要改写的token
   var res = '';
@@ -82,6 +80,13 @@ function prmrexpr(node, original) {
 }
 function analyse(context, original) {
   context.getVars().forEach(function(vardecl) {
-    modifies.push(new VarModify(original, vardecl));
+    var variable = vardecl.leaves()[0].token();
+    var prev = vardecl.prev();
+    var includeVar = false;
+    //包括var关键字需要将var一起删除
+    if(prev && prev.name() == JsNode.TOKEN && prev.token().content() == 'var') {
+      //
+    }
+    confilct[variable.tid()] || (confilct[variable.tid()] = new VarModify(original, vardecl, includeVar));
   });
 }

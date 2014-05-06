@@ -5,19 +5,14 @@ var VarModify = AbstractModify.extend(function(original, vardecl) {
   AbstractModify.call(this, original);
   this.vardecl = vardecl;
 }).methods({
-    gen: function(code) {
-      var start = this.start();
-      var end = this.end();
-      var repl = 'this[' + gen.getAnbuString(this.vardecl.leaves()[0].token().content(), this.original) + ']';
-      return code.slice(0, start) + repl + code.slice(end);
-    },
-    start: function() {
-      return this.vardecl.prev().token().sIndex();
-    },
-    end: function() {
-      var name = this.vardecl.leaves()[0].token();
-      return name.sIndex() + name.content().length;
+  gen: function() {
+    var repl = 'this[' + gen.getAnbuString(this.vardecl.leaves()[0].token().content(), this.original) + ']';
+    //未赋值的需要赋值undefined
+    if(this.vardecl.leaves().length == 1) {
+      repl += '=[][1]';
     }
-  });
+    return repl;
+  }
+});
 
 module.exports = VarModify;
