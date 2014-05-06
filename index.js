@@ -14,6 +14,7 @@ exports.encrypt = function(code, original) {
   var context = homunculus.getContext('js');
   context.parse(code);
   var ast = context.parser.ast();
+  var tokens = context.parser.lexer.tokens();
   modifies = [];
   PropertyModify.init();
   recursion(ast, original);
