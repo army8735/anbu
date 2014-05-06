@@ -22,6 +22,6 @@ npm install anbu
 
 * anbu.encrypt(code:String, original:Boolean = false):String
 <br/>将js代码code混淆难度并返回，这并不会修改代码的任何逻辑
-<br/>作为代价它会一定程度上增加js体积以及消耗更多的性能
+<br/>作为代价它会一定程度上增加js体积以及消耗更多的性能，体积gzip后大概会增加3倍，性能未知
 <br/>original默认false会在代码前置入一段脚本，扩展原生对象，一般也是安全的，除非和代码本身的扩展冲突
 <br/>original设置true时不会有上述扩展，但会减小混淆力度
