@@ -7,7 +7,6 @@ var JsNode = homunculus.getClass('node', 'js');
 var Token = homunculus.getClass('token');
 
 var gen = require('./src/gen');
-var sort = require('./util/sort');
 
 var modifies;
 var confilct;
@@ -21,7 +20,6 @@ exports.encrypt = function(code, original) {
   modifies = [];
   //将要改写的token记录下来并防止重复
   confilct = Object.create(null);
-//  PropertyModify.init();
   recursion(ast, original);
 //  analyse(context, original);
 
@@ -38,7 +36,7 @@ exports.encrypt = function(code, original) {
       res += token.content();
     }
   }
-  return (original ? gen.PRE_CODE : '') + res;
+  return (original ? '' : gen.PRE_CODE) + res;
 };
 
 function recursion(node, original) {
@@ -61,7 +59,7 @@ function recursion(node, original) {
   }
   else {
     if(node.name() == JsNode.PRMREXPR) {
-//      prmrexpr(node, original);
+      prmrexpr(node, original);
     }
     node.leaves().forEach(function(leaf, i) {
       recursion(leaf, original);
@@ -76,7 +74,7 @@ function prmrexpr(node, original) {
       var dot = next.token();
       next = next.next();
       if(next && next.name() == JsNode.TOKEN && next.token().type() == Token.ID) {
-        modifies.push(new PropertyModify(original, dot, next.token()));
+        confilct[dot.tid()] || (confilct[dot.tid()] = new PropertyModify(original, next.token()));
       }
     }
     next = next.next();
