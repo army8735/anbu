@@ -1,6 +1,7 @@
 var PropertyModify = require('./src/PropertyModify');
 var ConstantModify = require('./src/ConstantModify');
 var VarModify = require('./src/VarModify');
+var RemoveModify = require('./src/RemoveModify');
 
 var homunculus = require('homunculus');
 var JsNode = homunculus.getClass('node', 'js');
@@ -85,8 +86,9 @@ function analyse(context, original) {
     var includeVar = false;
     //包括var关键字需要将var一起删除
     if(prev && prev.name() == JsNode.TOKEN && prev.token().content() == 'var') {
-      //
+      prev = prev.token();
+      confilct[prev.tid()] || (confilct[prev.tid()] = new RemoveModify());
     }
-    confilct[variable.tid()] || (confilct[variable.tid()] = new VarModify(original, vardecl, includeVar));
+    confilct[variable.tid()] || (confilct[variable.tid()] = new VarModify(original, vardecl));
   });
 }
