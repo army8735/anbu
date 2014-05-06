@@ -83,7 +83,6 @@ function analyse(context, original) {
   context.getVars().forEach(function(vardecl) {
     var variable = vardecl.leaves()[0].token();
     var prev = vardecl.prev();
-    var includeVar = false;
     //包括var关键字需要将var一起删除
     if(prev && prev.name() == JsNode.TOKEN && prev.token().content() == 'var') {
       prev = prev.token();
