@@ -10,26 +10,35 @@ var gen = require('./src/gen');
 var sort = require('./util/sort');
 
 var modifies;
+var confilct;
+
 exports.encrypt = function(code, original) {
   var context = homunculus.getContext('js');
   context.parse(code);
   var ast = context.parser.ast();
   var tokens = context.parser.lexer.tokens();
+
   modifies = [];
-  PropertyModify.init();
+  //将要改写的token记录下来并防止重复
+  confilct = Object.create(null);
+//  PropertyModify.init();
   recursion(ast, original);
-  analyse(context, original);
-  //所有的修改按照索引排序，从尾部修改起便不会冲突
-  sort(modifies, function(a, b) {
-    return a.start() < b.start();
-  });
-  modifies.forEach(function(modify, i) {
-    code = modify.gen(code);
-  });
-  if(!original) {
-    code = gen.PRE_CODE + code;
+//  analyse(context, original);
+
+  //拼接tokens，替换要改写的token
+  var res = '';
+  for(var i = 0, len = tokens.length; i < len; i++) {
+    var token = tokens[i];
+    var modify = confilct[token.tid()];
+    if(modify) {
+      res += modify.gen();
+      i += modify.length();
+    }
+    else {
+      res += token.content();
+    }
   }
-  return code;
+  return (original ? gen.PRE_CODE : '') + res;
 };
 
 function recursion(node, original) {
@@ -43,16 +52,16 @@ function recursion(node, original) {
       var token = node.token();
       //改写常量
       if(token.type() == Token.STRING && token.val().length) {
-        modifies.push(new ConstantModify(original, token));
+        confilct[token.tid()] || (confilct[token.tid()] = new ConstantModify(original, token));
       }
       else if(token.type() == Token.NUMBER && token.content().indexOf('.') == -1) {
-        modifies.push(new ConstantModify(original, token));
+        confilct[token.tid()] || (confilct[token.tid()] = new ConstantModify(original, token));
       }
     }
   }
   else {
     if(node.name() == JsNode.PRMREXPR) {
-      prmrexpr(node, original);
+//      prmrexpr(node, original);
     }
     node.leaves().forEach(function(leaf, i) {
       recursion(leaf, original);

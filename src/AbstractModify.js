@@ -6,11 +6,8 @@ var AbstractModify = Class(function(original) {
   gen: function(code) {
     throw new Error('#gen muse be implemented')
   },
-  start: function() {
-    throw new Error('#start muse be implemented')
-  },
-  end: function() {
-    throw new Error('#end muse be implemented')
+  length: function() {
+    return 0;
   }
 });
 
