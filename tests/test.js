@@ -175,6 +175,20 @@ describe('simple tests', function() {
         delete this.a;
       });
     });
+    it('encrypt multi-global var', function() {
+      var s = 'var a = 1, b, c = 2';
+      var res = anbu.encrypt(s, true);
+      expect(res).to.not.eql(s);
+      eval(res);
+      expect(this.a).to.eql(1);
+      expect(this.b).to.eql(undefined);
+      expect(this.c).to.eql(2);
+      after(function() {
+        delete this.a;
+        delete this.b;
+        delete this.c;
+      });
+    });
   });
   describe('not use orginal', function() {
     it('encrypt number', function() {
@@ -219,6 +233,20 @@ describe('simple tests', function() {
       expect(this.a).to.eql(1);
       after(function() {
         delete this.a;
+      });
+    });
+    it('encrypt multi-global var', function() {
+      var s = 'var a = 1, b, c = 2';
+      var res = anbu.encrypt(s);
+      expect(res).to.not.eql(s);
+      eval(res);
+      expect(this.a).to.eql(1);
+      expect(this.b).to.eql(undefined);
+      expect(this.c).to.eql(2);
+      after(function() {
+        delete this.a;
+        delete this.b;
+        delete this.c;
       });
     });
     after(function() {
