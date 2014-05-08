@@ -258,7 +258,11 @@ describe('simple tests', function() {
     });
   });
 });
-describe('jslib tests', function() {
+describe.only('jslib tests', function() {
+  var dist = path.join(__dirname, './dist');
+  if(!fs.existsSync(dist)) {
+    fs.mkdirSync(dist);
+  }
   describe('seajs-debug', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
