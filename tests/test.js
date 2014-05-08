@@ -263,13 +263,13 @@ describe('jslib tests', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
       var res = anbu.encrypt(s, true);
-      fs.writeFileSync(path.join(__dirname, './lib/sea-debug-encrypt.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/sea-debug-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
     it('not use orginal', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
-      fs.writeFileSync(path.join(__dirname, './lib/sea-debug-encrypt-plus.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/sea-debug-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
   });
@@ -277,13 +277,13 @@ describe('jslib tests', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
       var res = anbu.encrypt(s, true);
-      fs.writeFileSync(path.join(__dirname, './lib/sea-encrypt.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/sea-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
     it('not use orginal', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/sea.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
-      fs.writeFileSync(path.join(__dirname, './lib/sea-encrypt-plus.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/sea-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
   });
@@ -291,13 +291,13 @@ describe('jslib tests', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/jquery.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
       var res = anbu.encrypt(s, true);
-      fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/jquery-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
     it('not use orginal', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/jquery.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
-      fs.writeFileSync(path.join(__dirname, './lib/jquery-encrypt-plus.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/jquery-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
   });
@@ -305,13 +305,13 @@ describe('jslib tests', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/jquery-min.js'), { encoding: 'utf-8' });
     it('use orginal', function() {
       var res = anbu.encrypt(s, true);
-      fs.writeFileSync(path.join(__dirname, './lib/jquery-min-encrypt.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/jquery-min-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
     it('not use orginal', function() {
       var s = fs.readFileSync(path.join(__dirname, './lib/jquery-min.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
-      fs.writeFileSync(path.join(__dirname, './lib/jquery-min-encrypt-plus.js'), res, { encoding: 'utf-8' });
+      fs.writeFileSync(path.join(__dirname, './dist/jquery-min-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
     });
   });
