@@ -6,7 +6,7 @@
       "email": "army8735@qq.com"
     }
   ],
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "javascript encrypt&confusion",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/army8735/anbu",
   "dependencies": {
-    "homunculus": "0.1.7"
+    "homunculus": "0.1.8"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
