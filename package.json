@@ -14,8 +14,10 @@
   },
   "config": {
     "blanket": {
-      "pattern": ["anbu/index.js",
-        "anbu/src"]
+      "pattern": [
+        "anbu/index.js",
+        "anbu/src"
+      ]
     }
   },
   "repository": {
@@ -36,10 +38,11 @@
     "homunculus": "0.1.9"
   },
   "devDependencies": {
-    "expect.js": "^0.3.1",
-    "mocha": "^1.18.2",
     "blanket": "^1.1.6",
     "coveralls": "^2.10.0",
-    "mocha-lcov-reporter": "0.0.1"
+    "expect.js": "^0.3.1",
+    "mocha": "^1.18.2",
+    "mocha-lcov-reporter": "0.0.1",
+    "phantomjs": "^1.9.7-5"
   }
 }
