@@ -258,7 +258,7 @@ describe('simple tests', function() {
     });
   });
 });
-describe.only('jslib tests', function() {
+describe('jslib tests', function() {
   var dist = path.join(__dirname, './dist');
   if(!fs.existsSync(dist)) {
     fs.mkdirSync(dist);
