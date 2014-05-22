@@ -43,6 +43,6 @@
     "expect.js": "^0.3.1",
     "mocha": "^1.18.2",
     "mocha-lcov-reporter": "0.0.1",
-    "phantomjs": "^1.9.7-5"
+    "phantomjs": "^1.9.7-6"
   }
 }
