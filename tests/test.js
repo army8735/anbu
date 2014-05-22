@@ -268,30 +268,86 @@ describe('jslib tests', function() {
   this.timeout(10000);
   describe('seajs-debug', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
-    it('use orginal', function() {
+    it('use orginal', function(done) {
       var res = anbu.encrypt(s, true);
       fs.writeFileSync(path.join(__dirname, './dist/sea-debug-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/sea-debug-encrypt.js',
+        'seajs']);
+      runner.stdout.on('data', function(data) {
+        expect(data.toString()).to.contain('[object Object]');
+      });
+      runner.stderr.on('data', function(data) {
+        throw new Error(data.toString());
+      });
+      runner.on('close', function() {
+        done();
+      });
     });
-    it('not use orginal', function() {
+    it('not use orginal', function(done) {
       var s = fs.readFileSync(path.join(__dirname, './lib/sea-debug.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './dist/sea-debug-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/sea-debug-encrypt-plus.js',
+        'seajs']);
+      runner.stdout.on('data', function(data) {
+        expect(data.toString()).to.contain('[object Object]');
+      });
+      runner.stderr.on('data', function(data) {
+        throw new Error(data.toString());
+      });
+      runner.on('close', function() {
+        done();
+      });
     });
   });
   describe('seajs', function() {
     var s = fs.readFileSync(path.join(__dirname, './lib/sea.js'), { encoding: 'utf-8' });
-    it('use orginal', function() {
+    it('use orginal', function(done) {
       var res = anbu.encrypt(s, true);
       fs.writeFileSync(path.join(__dirname, './dist/sea-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/sea-encrypt.js',
+        'seajs']);
+      runner.stdout.on('data', function(data) {
+        expect(data.toString()).to.contain('[object Object]');
+      });
+      runner.stderr.on('data', function(data) {
+        throw new Error(data.toString());
+      });
+      runner.on('close', function() {
+        done();
+      });
     });
-    it('not use orginal', function() {
+    it('not use orginal', function(done) {
       var s = fs.readFileSync(path.join(__dirname, './lib/sea.js'), { encoding: 'utf-8' });
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './dist/sea-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/sea-encrypt-plus.js',
+        'seajs']);
+      runner.stdout.on('data', function(data) {
+        expect(data.toString()).to.contain('[object Object]');
+      });
+      runner.stderr.on('data', function(data) {
+        throw new Error(data.toString());
+      });
+      runner.on('close', function() {
+        done();
+      });
     });
   });
   describe('jquery', function() {
@@ -300,9 +356,13 @@ describe('jslib tests', function() {
       var res = anbu.encrypt(s, true);
       fs.writeFileSync(path.join(__dirname, './dist/jquery-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
-      var runner = childProcess.spawn('phantomjs', [path.join(__dirname, '../lib/phantom.js'), 'tests/jquery-encrypt.html']);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/jquery-encrypt.js',
+        '$']);
       runner.stdout.on('data', function(data) {
-        expect(data.toString()).to.contain('function (selector, context)');
+        expect(data.toString()).to.contain('function (');
       });
       runner.stderr.on('data', function(data) {
         throw new Error(data.toString());
@@ -316,9 +376,13 @@ describe('jslib tests', function() {
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './dist/jquery-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
-      var runner = childProcess.spawn('phantomjs', [path.join(__dirname, '../lib/phantom.js'), 'tests/jquery-encrypt-plus.html']);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/jquery-encrypt-plus.js',
+        '$']);
       runner.stdout.on('data', function(data) {
-        expect(data.toString()).to.contain('function (selector, context)');
+        expect(data.toString()).to.contain('function (');
       });
       runner.stderr.on('data', function(data) {
         throw new Error(data.toString());
@@ -334,7 +398,11 @@ describe('jslib tests', function() {
       var res = anbu.encrypt(s, true);
       fs.writeFileSync(path.join(__dirname, './dist/jquery-min-encrypt.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
-      var runner = childProcess.spawn('phantomjs', [path.join(__dirname, '../lib/phantom.js'), 'tests/jquery-min-encrypt.html']);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/jquery-min-encrypt.js',
+        '$']);
       runner.stdout.on('data', function(data) {
         expect(data.toString()).to.contain('function (');
       });
@@ -350,7 +418,11 @@ describe('jslib tests', function() {
       var res = anbu.encrypt(s);
       fs.writeFileSync(path.join(__dirname, './dist/jquery-min-encrypt-plus.js'), res, { encoding: 'utf-8' });
       expect(res).to.not.eql(s);
-      var runner = childProcess.spawn('phantomjs', [path.join(__dirname, '../lib/phantom.js'), 'tests/jquery-min-encrypt-plus.html']);
+      var runner = childProcess.spawn('phantomjs', [
+        path.join(__dirname, '../lib/phantom.js'),
+        'tests/test.html',
+        './dist/jquery-min-encrypt-plus.js',
+        '$']);
       runner.stdout.on('data', function(data) {
         expect(data.toString()).to.contain('function (');
       });

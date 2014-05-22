@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>test</title>
+</head>
+<body>
+<script>
+  var url = location.search.slice(1);
+  var script = document.createElement('script');
+  script.src = url;
+  document.head.appendChild(script);
+</script>
+</body>
+</html>
