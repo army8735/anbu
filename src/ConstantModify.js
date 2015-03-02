@@ -1,7 +1,7 @@
 var AbstractModify = require('./AbstractModify');
 var gen = require('./gen');
 var homunculus = require('homunculus');
-var Token = homunculus.getClass('token');
+var Token = homunculus.getClass('token', 'js');
 
 var ConstantModify = AbstractModify.extend(function(original, token) {
   AbstractModify.call(this, original);

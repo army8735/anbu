@@ -5,7 +5,7 @@ var RemoveModify = require('./src/RemoveModify');
 
 var homunculus = require('homunculus');
 var JsNode = homunculus.getClass('node', 'js');
-var Token = homunculus.getClass('token');
+var Token = homunculus.getClass('token', 'js');
 
 var gen = require('./src/gen');
 
